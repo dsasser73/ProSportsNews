@@ -47,19 +47,24 @@ class Window(QtGui.QMainWindow):
 		self.show()
 		
 	def parsefeed(self, sport, textEdit):
-		feedMLB = feedparser.parse("http://mlb.mlb.com/partnerxml/gen/news/rss/mlb.xml")
-		feedNFL = feedparser.parse("http://www.nfl.com/rss/rsslanding?searchString=home")
-		feedNCAAF = feedparser.parse("http://www.ncaa.com/news/football/fbs/rss.xml")
-		feedSoccer = feedparser.parse("http://feeds.bbci.co.uk/sport/football/rss.xml?edition=int")
-		feedNCAAB = feedparser.parse("http://www.ncaa.com/news/baseball/d1/rss.xml")
-		feedPGA = feedparser.parse("http://mlb.mlb.com/partnerxml/gen/news/rss/mlb.xml")
-		
 		if(sport == 'MLB'):
-			for newsitem in feedMLB['items']:
-				textEdit.insertPlainText(newsitem['title'])
-				textEdit.insertPlainText('\n\n')
-				textEdit.insertPlainText(newsitem['summary'])
-				textEdit.insertPlainText('\n\n\n')
+			feed = feedparser.parse("http://mlb.mlb.com/partnerxml/gen/news/rss/mlb.xml")
+		if(sport == 'NFL'):
+			feed = feedparser.parse("http://www.nfl.com/rss/rsslanding?searchString=home")
+		if(sport == 'NCAAF'):
+			feed = feedparser.parse("http://www.ncaa.com/news/football/fbs/rss.xml")
+		if(sport == 'Soccer'):
+			feed = feedparser.parse("http://feeds.bbci.co.uk/sport/football/rss.xml?edition=int")
+		if(sport == 'NCAAB'):
+			feed = feedparser.parse("http://www.ncaa.com/news/baseball/d1/rss.xml")
+		if(sport == 'PGA'):
+			feed = feedparser.parse("http://mlb.mlb.com/partnerxml/gen/news/rss/mlb.xml")
+		
+		for newsitem in feed['items']:
+			textEdit.insertPlainText(newsitem['title'])
+			textEdit.insertPlainText('\n\n')
+			textEdit.insertPlainText(newsitem['summary'])
+			textEdit.insertPlainText('\n\n\n')
 
 def main():
 	app = QtGui.QApplication(sys.argv)
