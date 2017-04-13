@@ -16,7 +16,6 @@ class Window(QtGui.QMainWindow):
 		self.newsFeed = QtGui.QTextEdit()
 		self.setCentralWidget(self.newsFeed)
 		self.newsFeed.setReadOnly(True)
-		self.newsFeed.insertPlainText('\n\n')
 		
 		btnMLB = QtGui.QPushButton("MLB", self)
 		btnMLB.setFixedWidth(107)
@@ -47,6 +46,8 @@ class Window(QtGui.QMainWindow):
 		self.show()
 		
 	def parsefeed(self, sport, textEdit):
+		textEdit.clear()
+		textEdit.insertHtml('<br>')
 		if(sport == 'MLB'):
 			feed = feedparser.parse("http://mlb.mlb.com/partnerxml/gen/news/rss/mlb.xml")
 		if(sport == 'NFL'):
@@ -58,12 +59,13 @@ class Window(QtGui.QMainWindow):
 		if(sport == 'NCAAB'):
 			feed = feedparser.parse("http://www.ncaa.com/news/baseball/d1/rss.xml")
 		if(sport == 'PGA'):
-			feed = feedparser.parse("http://mlb.mlb.com/partnerxml/gen/news/rss/mlb.xml")
+			feed = feedparser.parse("http://www.uspgagolf.com/pgagolftour.xml")
 		
+		textEdit.setStyleSheet("QTextEdit {font-size:16px}")
 		for newsitem in feed['items']:
 			textEdit.insertPlainText(newsitem['title'])
 			textEdit.insertPlainText('\n\n')
-			textEdit.insertPlainText(newsitem['summary'])
+			textEdit.insertHtml(newsitem['summary'])
 			textEdit.insertPlainText('\n\n\n')
 
 def main():
